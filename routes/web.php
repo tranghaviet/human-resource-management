@@ -18,3 +18,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('departments', 'DepartmentController');
+
+Route::resource('users', 'UserController');
