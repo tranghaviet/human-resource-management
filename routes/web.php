@@ -24,3 +24,5 @@ Route::resource('users', 'UserController');
 Route::resource('monthly_logs', 'MonthlyLogController');
 
 Route::resource('daily_logs', 'DailyLogController');
+
+Route::resource('feedback', 'FeedbackController');

@@ -14,3 +14,7 @@
     <a href="{!! route('dailyLogs.index') !!}"><i class="fa fa-edit"></i><span>Daily Logs</span></a>
 </li>
 
+<li class="{{ Request::is('feedback*') ? 'active' : '' }}">
+    <a href="{!! route('feedback.index') !!}"><i class="fa fa-edit"></i><span>Feedback</span></a>
+</li>
+
