@@ -19,9 +19,9 @@ class CreateFeedbackTable extends Migration
             $table->mediumText('content');
             $table->mediumText('reply')->nullable();
             $table->boolean('is_resolved')->default(false);
-            $table->timestamp('created_at')->nullable();
             $table->integer('replied_user_id', false, true)->nullable();
             $table->timestamp('replied_at')->nullable();
+            $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')->on('users')

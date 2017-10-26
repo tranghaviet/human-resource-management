@@ -17,6 +17,7 @@ class CreateDepartmentsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('manager_id', false, true)->nullable();
+            $table->timestamps();
 
             $table->foreign('manager_id')
                 ->references('id')->on('users')
