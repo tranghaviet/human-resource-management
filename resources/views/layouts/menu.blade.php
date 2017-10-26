@@ -6,3 +6,7 @@
     <a href="{!! route('users.index') !!}"><i class="fa fa-edit"></i><span>Users</span></a>
 </li>
 
+<li class="{{ Request::is('monthlyLogs*') ? 'active' : '' }}">
+    <a href="{!! route('monthlyLogs.index') !!}"><i class="fa fa-edit"></i><span>Monthly Logs</span></a>
+</li>
+

@@ -20,3 +20,5 @@ Auth::routes();
 Route::resource('departments', 'DepartmentController');
 
 Route::resource('users', 'UserController');
+
+Route::resource('monthlyLogs', 'MonthlyLogController');
