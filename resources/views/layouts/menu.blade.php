@@ -10,3 +10,7 @@
     <a href="{!! route('monthlyLogs.index') !!}"><i class="fa fa-edit"></i><span>Monthly Logs</span></a>
 </li>
 
+<li class="{{ Request::is('dailyLogs*') ? 'active' : '' }}">
+    <a href="{!! route('dailyLogs.index') !!}"><i class="fa fa-edit"></i><span>Daily Logs</span></a>
+</li>
+
