@@ -21,7 +21,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string name
  * @property string email
  * @property string password
- * @property boolean gender
+ * @property string gender
  * @property string phone
  * @property string address
  * @property integer base_salary
@@ -70,7 +70,7 @@ class User extends Authenticatable
         'name' => 'string',
         'email' => 'string',
         'password' => 'string',
-        'gender' => 'boolean',
+        'gender' => 'string',
         'phone' => 'string',
         'address' => 'string',
         'base_salary' => 'integer',

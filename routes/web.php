@@ -21,8 +21,8 @@ Route::resource('departments', 'DepartmentController');
 
 Route::resource('users', 'UserController');
 
-Route::resource('monthly_logs', 'MonthlyLogController');
+Route::resource('monthlyLogs', 'MonthlyLogController');
 
-Route::resource('daily_logs', 'DailyLogController');
+Route::resource('dailyLogs', 'DailyLogController');
 
 Route::resource('feedback', 'FeedbackController');

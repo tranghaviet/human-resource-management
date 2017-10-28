@@ -6,6 +6,7 @@ use Zizaco\Entrust\EntrustRole;
 
 /**
  * Class Role.
+ *
  * @package App\Models
  * @version October 26, 2017, 5:45 pm UTC
  *
@@ -17,18 +18,25 @@ use Zizaco\Entrust\EntrustRole;
  * @property string display_name
  * @property string description
  */
-
 class Role extends EntrustRole
 {
-    public $table = 'roles';
-    
+    CONST ROLES = [
+        'ADMIN' => 'admin',
+        'MANAGER' => 'manager',
+        'HUMAN_RESOURCE' => 'human_resource',
+        'EMPLOYEE' => 'employee',
+    ];
+
     const CREATED_AT = 'created_at';
+
     const UPDATED_AT = 'updated_at';
+
+    public $table = 'roles';
 
     public $fillable = [
         'name',
         'display_name',
-        'description'
+        'description',
     ];
 
     /**
@@ -40,7 +48,7 @@ class Role extends EntrustRole
         'id' => 'integer',
         'name' => 'string',
         'display_name' => 'string',
-        'description' => 'string'
+        'description' => 'string',
     ];
 
     /**
@@ -49,7 +57,7 @@ class Role extends EntrustRole
      * @var array
      */
     public static $rules = [
-        
+
     ];
 
     /**
