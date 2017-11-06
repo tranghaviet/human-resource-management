@@ -17,12 +17,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('departments', 'DepartmentController');
+Route::group(['prefix' => 'admin/', 'middleware' => 'auth'], function () {
+    Route::resource('departments', 'DepartmentController');
 
-Route::resource('users', 'UserController');
+    Route::resource('users', 'UserController');
 
-Route::resource('monthlyLogs', 'MonthlyLogController');
+    Route::resource('monthlyLogs', 'MonthlyLogController');
 
-Route::resource('dailyLogs', 'DailyLogController');
+    Route::resource('dailyLogs', 'DailyLogController');
 
-Route::resource('feedback', 'FeedbackController');
+    Route::resource('feedback', 'FeedbackController');
+});

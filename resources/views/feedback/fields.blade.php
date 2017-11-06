@@ -1,15 +1,10 @@
-<!-- User Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('user_id', 'User Id:') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Content Field -->
-<div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('content', 'Content:') !!}
-    {!! Form::textarea('content', null, ['class' => 'form-control']) !!}
-</div>
-
+@if(\Auth::user()->id == $feedback->user_id)
+    <!-- Content Field -->
+    <div class="form-group col-sm-12 col-lg-12">
+        {!! Form::label('content', 'Content:') !!}
+        {!! Form::textarea('content', null, ['class' => 'form-control']) !!}
+    </div>
+@else
 <!-- Reply Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('reply', 'Reply:') !!}
@@ -21,23 +16,20 @@
     {!! Form::label('is_resolved', 'Is Resolved:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('is_resolved', false) !!}
-        {!! Form::checkbox('is_resolved', '1', null) !!} 1
+        {!! Form::checkbox('is_resolved', '1', null) !!} True
     </label>
 </div>
 
-<!-- Replied User Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('replied_user_id', 'Replied User Id:') !!}
-    {!! Form::number('replied_user_id', null, ['class' => 'form-control']) !!}
-</div>
+@if(! empty($feedback['replied_at']))
+    <!-- Replied At Field -->
+    <div class="form-group col-sm-6">
+        {!! Form::label('replied_at', 'Replied At:') !!}
+        {{ $feedback['replied_at'] }}
+    </div>
+@endif
+@endif
 
-<!-- Replied At Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('replied_at', 'Replied At:') !!}
-    {!! Form::date('replied_at', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Submit Field -->
+    <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
     <a href="{!! route('feedback.index') !!}" class="btn btn-default">Cancel</a>

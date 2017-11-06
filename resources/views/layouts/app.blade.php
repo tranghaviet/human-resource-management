@@ -84,6 +84,10 @@
         @include('layouts.sidebar')
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <div class="clearfix"></div>
+            @include('flash::message')
+            <div class="clearfix"></div>
+
             @yield('content')
         </div>
 

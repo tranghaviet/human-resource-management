@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class FeedbackController extends AppBaseController
 {
@@ -29,7 +31,7 @@ class FeedbackController extends AppBaseController
     public function index(Request $request)
     {
         $this->feedbackRepository->pushCriteria(new RequestCriteria($request));
-        $feedback = $this->feedbackRepository->all();
+        $feedback = $this->feedbackRepository->with('user')->all();
 
         return view('feedback.index')
             ->with('feedback', $feedback);
@@ -54,9 +56,10 @@ class FeedbackController extends AppBaseController
      */
     public function store(CreateFeedbackRequest $request)
     {
-        $input = $request->all();
+        $input = $request->only(['content']);
+        $input['user_id'] = Auth::user()->id;
 
-        $feedback = $this->feedbackRepository->create($input);
+        $this->feedbackRepository->create($input);
 
         Flash::success('Feedback saved successfully.');
 
@@ -121,11 +124,21 @@ class FeedbackController extends AppBaseController
             return redirect(route('feedback.index'));
         }
 
-        $feedback = $this->feedbackRepository->update($request->all(), $id);
+        $user = Auth::user();
+
+        if ($user->id == $feedback->user_id) {
+            $input = $request->only(['content']);
+        } else {
+            $input = $request->only(['reply', 'is_resolved']);
+            $input['replied_user_id'] = $user->id;
+            $input['replied_at'] = Carbon::now()->toDateTimeString();
+        }
+
+        $this->feedbackRepository->update($input, $id);
 
         Flash::success('Feedback updated successfully.');
 
-        return redirect(route('feedback.index'));
+        return redirect(route('feedback.edit', ['id' => $id]));
     }
 
     /**
