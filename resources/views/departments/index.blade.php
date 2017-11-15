@@ -10,7 +10,7 @@
     <div class="content">
         <div class="box box-primary">
             <div class="box-body">
-                    @include('departments.table')
+                @include('departments.table')
             </div>
         </div>
     </div>

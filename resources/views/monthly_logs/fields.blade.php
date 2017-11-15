@@ -6,8 +6,8 @@
 
 <!-- Month Year Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('month_year', 'Month Year:') !!}
-    {!! Form::date('month_year', null, ['class' => 'form-control']) !!}
+    {!! Form::label('date', 'Month Year:') !!}
+    {!! Form::date('date', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Overtime Hours Field -->

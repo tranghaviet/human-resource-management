@@ -16,7 +16,7 @@
     @foreach($monthlyLogs as $monthlyLog)
         <tr>
             <td>{!! $monthlyLog->user_id !!}</td>
-            <td>{!! $monthlyLog->month_year !!}</td>
+            <td>{!! $monthlyLog->date !!}</td>
             <td>{!! $monthlyLog->overtime_hours !!}</td>
             <td>{!! $monthlyLog->days_off !!}</td>
             <td>{!! $monthlyLog->total_base_salary !!}</td>

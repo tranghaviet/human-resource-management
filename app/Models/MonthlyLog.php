@@ -15,7 +15,7 @@ use Eloquent as Model;
  * @property \Illuminate\Database\Eloquent\Collection permissionRole
  * @property \Illuminate\Database\Eloquent\Collection roleUser
  * @property integer user_id
- * @property date month_year
+ * @property date date
  * @property float overtime_hours
  * @property integer days_off
  * @property integer total_base_salary
@@ -27,13 +27,13 @@ use Eloquent as Model;
 class MonthlyLog extends Model
 {
     public $table = 'monthly_logs';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
     public $fillable = [
         'user_id',
-        'month_year',
+        'date',
         'overtime_hours',
         'days_off',
         'total_base_salary',
@@ -50,7 +50,7 @@ class MonthlyLog extends Model
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
-        'month_year' => 'date',
+        'date' => 'date',
         'overtime_hours' => 'float',
         'days_off' => 'integer',
         'total_base_salary' => 'integer',
@@ -65,7 +65,7 @@ class MonthlyLog extends Model
      * @var array
      */
     public static $rules = [
-        
+
     ];
 
     /**

@@ -33,8 +33,7 @@ class FeedbackController extends AppBaseController
         $this->feedbackRepository->pushCriteria(new RequestCriteria($request));
         $feedback = $this->feedbackRepository->with('user')->all();
 
-        return view('feedback.index')
-            ->with('feedback', $feedback);
+        return view('feedback.index')->with('feedback', $feedback);
     }
 
     /**
@@ -109,7 +108,7 @@ class FeedbackController extends AppBaseController
     /**
      * Update the specified Feedback in storage.
      *
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateFeedbackRequest $request
      *
      * @return Response

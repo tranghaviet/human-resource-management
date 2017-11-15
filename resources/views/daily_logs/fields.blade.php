@@ -7,7 +7,7 @@
 <!-- Checked In At Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('checked_in_at', 'Checked In At:') !!}
-    {!! Form::date('checked_in_at', null, ['class' => 'form-control']) !!}
+    {!! Form::datetimeLocal('checked_in_at', \Carbon\Carbon::now(), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Checked Out At Field -->
