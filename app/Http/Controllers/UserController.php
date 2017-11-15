@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Department;
 
 class UserController extends AppBaseController
 {
@@ -100,7 +101,14 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        return view('users.edit')->with('user', $user);
+        $departmentOptions = [];
+        $departments = Department::all();
+
+        foreach ($departments as $department) {
+            $departmentOptions[$department->id] = $department->name;
+        }
+
+        return view('users.edit', compact(['user', 'departmentOptions']));
     }
 
     /**

@@ -106,14 +106,6 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function departments()
-    {
-        return $this->hasMany(\App\Models\Department::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
     public function feedback()
     {
         return $this->hasMany(\App\Models\Feedback::class);

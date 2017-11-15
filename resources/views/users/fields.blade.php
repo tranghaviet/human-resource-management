@@ -10,18 +10,12 @@
     {!! Form::email('email', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Password Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('password', 'Password:') !!}
-    {!! Form::password('password', ['class' => 'form-control']) !!}
-</div>
-
 <!-- Gender Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('gender', 'Gender:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('gender', false) !!}
-        {!! Form::checkbox('gender', '1', null) !!} 1
+        {!! Form::checkbox('gender', '1', null) !!} Male
     </label>
 </div>
 
@@ -45,14 +39,8 @@
 
 <!-- Department Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('department_id', 'Department Id:') !!}
-    {!! Form::number('department_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Remember Token Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('remember_token', 'Remember Token:') !!}
-    {!! Form::text('remember_token', null, ['class' => 'form-control']) !!}
+    {!! Form::label('department', 'Department:') !!}
+    {!! Form::select('department_id', $departmentOptions, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

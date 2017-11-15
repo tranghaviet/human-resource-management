@@ -16,12 +16,6 @@
     <p>{!! $user->email !!}</p>
 </div>
 
-<!-- Password Field -->
-<div class="form-group">
-    {!! Form::label('password', 'Password:') !!}
-    <p>{!! $user->password !!}</p>
-</div>
-
 <!-- Gender Field -->
 <div class="form-group">
     {!! Form::label('gender', 'Gender:') !!}
@@ -48,14 +42,8 @@
 
 <!-- Department Id Field -->
 <div class="form-group">
-    {!! Form::label('department_id', 'Department Id:') !!}
-    <p>{!! $user->department_id !!}</p>
-</div>
-
-<!-- Remember Token Field -->
-<div class="form-group">
-    {!! Form::label('remember_token', 'Remember Token:') !!}
-    <p>{!! $user->remember_token !!}</p>
+    {!! Form::label('department', 'Department:') !!}
+    <p>{!! is_null($user->department_id) ? null : $user->department['name'] !!}</p>
 </div>
 
 <!-- Created At Field -->
