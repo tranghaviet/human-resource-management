@@ -74,6 +74,7 @@ class Feedback extends Model
      **/
     public function replyUser()
     {
+        //return $this->hasOne(\App\Models\User::class, 'id', 'replied_user_id');
         return $this->belongsTo(\App\Models\User::class, 'replied_user_id', 'id');
     }
 }

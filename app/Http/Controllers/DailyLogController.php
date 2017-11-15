@@ -33,7 +33,7 @@ class DailyLogController extends AppBaseController
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
-            $dailyLogs = $this->dailyLogRepository->all();
+            $dailyLogs = $this->dailyLogRepository->with('user')->paginate(20);
         } else {
             $dailyLogs = $this->dailyLogRepository
                 ->findWhere(['user_id' => $user->id]);

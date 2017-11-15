@@ -12,6 +12,7 @@
                 <div class="row" style="padding-left: 20px">
                     @include('feedback.show_fields')
                     <a href="{!! route('feedback.index') !!}" class="btn btn-default">Back</a>
+                    <a href="{!! route('feedback.edit', ['id' => $feedback->id]) !!}" class="btn btn-primary">Edit</a>
                 </div>
             </div>
         </div>

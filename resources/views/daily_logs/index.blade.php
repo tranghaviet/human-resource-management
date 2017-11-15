@@ -17,6 +17,7 @@
             <div class="box-body">
                     @include('daily_logs.table')
             </div>
+            <div class="text-center">{{ $dailyLogs->render() }}</div>
         </div>
     </div>
 @endsection

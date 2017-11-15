@@ -31,7 +31,14 @@ class FeedbackController extends AppBaseController
     public function index(Request $request)
     {
         $this->feedbackRepository->pushCriteria(new RequestCriteria($request));
-        $feedback = $this->feedbackRepository->with('user')->all();
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            $feedback = $this->feedbackRepository->with('user')->paginate(15);
+        } else {
+            $feedback = $this->feedbackRepository
+                ->findWhere(['user_id' => $user->id]);
+        }
 
         return view('feedback.index')->with('feedback', $feedback);
     }
@@ -127,17 +134,18 @@ class FeedbackController extends AppBaseController
 
         if ($user->id == $feedback->user_id) {
             $input = $request->only(['content']);
+            Flash::success('Feedback updated successfully.');
         } else {
             $input = $request->only(['reply', 'is_resolved']);
             $input['replied_user_id'] = $user->id;
             $input['replied_at'] = Carbon::now()->toDateTimeString();
+
+            Flash::success('Feedback replied successfully.');
         }
 
         $this->feedbackRepository->update($input, $id);
 
-        Flash::success('Feedback updated successfully.');
-
-        return redirect(route('feedback.edit', ['id' => $id]));
+        return redirect(route('feedback.show', ['id' => $id]));
     }
 
     /**
@@ -157,10 +165,14 @@ class FeedbackController extends AppBaseController
             return redirect(route('feedback.index'));
         }
 
-        $this->feedbackRepository->delete($id);
+        $user = Auth::user();
 
-        Flash::success('Feedback deleted successfully.');
+        if ($user->id == $feedback->user_id || $user->hasRole('admin')) {
+            $this->feedbackRepository->delete($id);
+            Flash::success('Feedback deleted successfully.');
+            return redirect(route('feedback.index'));
+        }
 
-        return redirect(route('feedback.index'));
+        abort(403);
     }
 }

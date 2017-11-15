@@ -17,7 +17,7 @@
             <td>{!! $feedback->content !!}</td>
             <td>{!! $feedback->reply !!}</td>
             <td>{!! var_export($feedback->is_resolved) !!}</td>
-            <td>{!! $feedback->replyUser['name'] !!}</td>
+            <td>{!! is_null($feedback->replied_user_id) ? null : $feedback->replyUser['name'] !!}</td>
             <td>{!! $feedback->replied_at !!}</td>
             <td>
                 {!! Form::open(['route' => ['feedback.destroy', $feedback->id], 'method' => 'delete']) !!}
