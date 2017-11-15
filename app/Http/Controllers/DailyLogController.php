@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateDailyLogRequest;
+use Auth;
+use Flash;
+use Response;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use App\Http\Requests\UpdateDailyLogRequest;
 use App\Repositories\DailyLogRepository;
-use Illuminate\Http\Request;
-use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
 class DailyLogController extends AppBaseController
 {
@@ -29,7 +30,14 @@ class DailyLogController extends AppBaseController
     public function index(Request $request)
     {
         $this->dailyLogRepository->pushCriteria(new RequestCriteria($request));
-        $dailyLogs = $this->dailyLogRepository->all();
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            $dailyLogs = $this->dailyLogRepository->all();
+        } else {
+            $dailyLogs = $this->dailyLogRepository
+                ->findWhere(['user_id' => $user->id]);
+        }
 
         return view('daily_logs.index')
             ->with('dailyLogs', $dailyLogs);
@@ -45,20 +53,48 @@ class DailyLogController extends AppBaseController
         return view('daily_logs.create');
     }
 
-    /**
-     * Store a newly created DailyLog in storage.
-     *
-     * @param CreateDailyLogRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateDailyLogRequest $request)
+    public function checkIn()
     {
-        $input = $request->all();
+        $user = Auth::user();
+        $now = Carbon::now();
 
-        $dailyLog = $this->dailyLogRepository->create($input);
+        $userCheckedIn =  get_user_checked_in($user->id, $now->toDateString());
 
-        Flash::success('Daily Log saved successfully.');
+        if (! empty($userCheckedIn)) {
+            Flash::success('You already checked-in.');
+        } else {
+            $input = [
+                'user_id' => $user->id,
+                'checked_in_at' => $now->toDateTimeString(),
+            ];
+
+            $this->dailyLogRepository->create($input);
+
+            Flash::success('Check-in successfully.');
+        }
+
+        return redirect(route('dailyLogs.index'));
+    }
+
+    public function checkOut()
+    {
+        $user = Auth::user();
+        $now = Carbon::now();
+
+        $userCheckedIn =  get_user_checked_in($user->id, $now->toDateString());
+
+        if (! empty($userCheckedIn)) {
+            $userCheckedIn->checked_out_at = $now;
+
+            $checkedInTime = new Carbon($userCheckedIn->checked_in_at);
+            $userCheckedIn->working_hours = $now->diffInHours($checkedInTime);
+
+            $userCheckedIn->save();
+
+            Flash::success('Check-out successfully.');
+        } else {
+            Flash::success("You haven't checked-in yet.");
+        }
 
         return redirect(route('dailyLogs.index'));
     }
@@ -106,7 +142,7 @@ class DailyLogController extends AppBaseController
     /**
      * Update the specified DailyLog in storage.
      *
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateDailyLogRequest $request
      *
      * @return Response

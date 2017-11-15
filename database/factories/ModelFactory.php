@@ -44,7 +44,7 @@ $factory->define(\App\Models\Feedback::class, function (Generator $faker) {
 
 $factory->define(\App\Models\MonthlyLog::class, function (Generator $faker) {
     return [
-        'month_year' => $faker->date(),
+        'date' => $faker->date(),
         'overtime_hours' => $faker->numberBetween(0, 10),
         'days_off' => $faker->numberBetween(0, 5),
     ];
