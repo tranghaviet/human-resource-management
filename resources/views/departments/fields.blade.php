@@ -7,7 +7,7 @@
 <!-- Manager Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('manager_id', 'Manager Id:') !!}
-    {!! Form::number('manager_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('manager_id', $managerOptions, null) !!}
 </div>
 
 <!-- Submit Field -->
