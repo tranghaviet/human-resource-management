@@ -25,11 +25,11 @@ Route::group(['middleware' => 'auth'], function () {
             ['only' => ['index', 'create', 'store', 'destroy']]);
     });
     Route::resource('users', 'UserController',
-        ['only' => ['show', 'edit', 'update']]);  // try this
+        ['only' => ['show', 'edit', 'update']]);
 
+    Route::post('monthlyLogs/setReward', 'MonthlyLogController@setReward')->name('monthlyLogs.getSetReward');
+    Route::get('monthlyLogs/setReward', 'MonthlyLogController@getSetReward')->name('monthlyLogs.postSetReward');
     Route::resource('monthlyLogs', 'MonthlyLogController');
-    Route::post('monthlyLogs/setReward', 'MonthlyLogController@setReward');
-    Route::get('monthlyLogs/setReward', 'MonthlyLogController@getSetReward');
 
     Route::resource('dailyLogs', 'DailyLogController');
     Route::post('dailyLogs/checkIn', 'DailyLogController@checkIn')->name('dailyLogs.checkIn');

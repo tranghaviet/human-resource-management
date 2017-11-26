@@ -14,7 +14,7 @@
                         <div class="form-group col-sm-3">
                             {!! Form::label('user_id', 'User:') !!}
                             <br />
-                            {!! Form::select('user_id', $userOptions, null) !!}
+                            {!! Form::select('user_id', $userOptions, array_get_first_key($userOptions), ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group col-sm-3">
                             {!! Form::label('year', 'Year:') !!}
@@ -23,7 +23,7 @@
                        <div class="form-group col-sm-3">
                            {!! Form::label('month', 'Month:') !!}
                            <br />
-                           {!! Form::select('month', $monthOptions, ['class' => 'form-control']) !!}
+                           {!! Form::select('month', $monthOptions, date('m'), ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group col-sm-3">
                             {!! Form::label('reward', 'Reward:') !!}

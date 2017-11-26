@@ -36,9 +36,9 @@ class MonthlyLogController extends AppBaseController
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
-            $monthlyLogs = $this->monthlyLogRepository->paginate(30);
+            $monthlyLogs = $this->monthlyLogRepository->with('user')->paginate(30);
         } else {
-            $monthlyLogs = MonthlyLog::where('user_id', $user->id)->paginate(30);
+            $monthlyLogs = MonthlyLog::where('user_id', $user->id)->with('user')->paginate(30);
         }
 
         return view('monthly_logs.index')
@@ -193,14 +193,20 @@ class MonthlyLogController extends AppBaseController
         $date->year = $request->year;
         $date->month = $request->month;
 
+        if ($request->reward < 0) {
+            Flash::error('Reward must greater than zero.');
+            return redirect(route('monthlyLogs.getSetReward'));
+        }
+
         $monthlyLog = MonthlyLog::findByUserIdAndDate($request->user_id, $date);
 
         if (empty($monthlyLog)) {
-            Flash::warning('No time found.');
-            return redirect(route('monthlyLogs.index'));
+            Flash::error('No time found.');
+            return redirect(route('monthlyLogs.getSetReward'));
         }
 
         $monthlyLog->reward = $request->reward;
+        $monthlyLog->total_salary += $request->reward;
         $monthlyLog->save();
 
         Flash::success('Reward set successfully.');
