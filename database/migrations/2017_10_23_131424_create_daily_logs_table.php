@@ -25,11 +25,11 @@ class CreateDailyLogsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onUpdate('cascade')
-                ->onDelete('set null');
+                ->onDelete('cascade');
             $table->foreign('monthly_log_id')
-                ->references('id')->on('users')
+                ->references('id')->on('monthly_logs')
                 ->onUpdate('cascade')
-                ->onDelete('set null');
+                ->onDelete('cascade');
         });
     }
 

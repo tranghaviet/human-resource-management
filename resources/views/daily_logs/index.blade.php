@@ -14,10 +14,14 @@
     </section>
     <div class="content">
         <div class="box box-primary">
-            <div class="box-body">
+            @if($dailyLogs->count() == 0)
+                <h1>Empty</h1>
+            @else
+                <div class="box-body">
                     @include('daily_logs.table')
-            </div>
-            <div class="text-center">{{ $dailyLogs->render() }}</div>
+                </div>
+                <div class="text-center">{{ $dailyLogs->render() }}</div>
+            @endif
         </div>
     </div>
 @endsection

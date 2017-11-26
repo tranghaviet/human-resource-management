@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
+            // base salary is salary for a full working day.
             $table->integer('base_salary', false, true)->nullable();
             $table->integer('department_id', false, true)->nullable();
             $table->rememberToken();

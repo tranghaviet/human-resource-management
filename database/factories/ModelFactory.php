@@ -24,7 +24,7 @@ $factory->define(App\Models\User::class, function (Generator $faker) {
         'gender' => $faker->boolean() ? 'Male' : 'Female',
         'phone' => $faker->phoneNumber,
         'address' => $faker->address,
-        'base_salary' => $faker->numberBetween(10000000, 20000000),
+        'base_salary' => $faker->numberBetween(100000, 300000),
     ];
 });
 
@@ -36,8 +36,8 @@ $factory->define(\App\Models\Department::class, function (Generator $faker) {
 
 $factory->define(\App\Models\Feedback::class, function (Generator $faker) {
     return [
-        'content' => $faker->paragraphs(3, TRUE),
-        'reply' => $faker->paragraphs(3, TRUE),
+        'content' => $faker->paragraphs(2, TRUE),
+        'reply' => $faker->paragraphs(2, TRUE),
         'is_resolved' => $faker->boolean,
     ];
 });
@@ -51,9 +51,14 @@ $factory->define(\App\Models\MonthlyLog::class, function (Generator $faker) {
 });
 
 $factory->define(\App\Models\DailyLog::class, function (Generator $faker) {
+    $checkInAt = $faker->dateTimeThisMonth;
+    $checkOutAt = $checkInAt;
+    $workingHours = $faker->numberBetween(5, 9);
+    $checkOutAt->add(new DateInterval('PT' . $workingHours . 'H'));
+
     return [
-        'checked_in_at' => $faker->dateTime(),
-        'checked_out_at' => $faker->dateTime(),
-        'working_hours' => $faker->numberBetween(7, 9),
+        'checked_in_at' => $checkInAt,
+        'checked_out_at' => $checkOutAt,
+        'working_hours' => $workingHours,
     ];
 });
