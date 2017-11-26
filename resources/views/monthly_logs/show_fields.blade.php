@@ -12,8 +12,8 @@
 
 <!-- Month Year Field -->
 <div class="form-group">
-    {!! Form::label('month_year', 'Month Year:') !!}
-    <p>{!! $monthlyLog->month_year !!}</p>
+    {!! Form::label('date', 'Month Year:') !!}
+    <p>{!! $monthlyLog->date !!}</p>
 </div>
 
 <!-- Overtime Hours Field -->

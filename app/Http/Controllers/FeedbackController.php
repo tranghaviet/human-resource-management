@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\Feedback;
 
 class FeedbackController extends AppBaseController
 {
@@ -29,10 +32,15 @@ class FeedbackController extends AppBaseController
     public function index(Request $request)
     {
         $this->feedbackRepository->pushCriteria(new RequestCriteria($request));
-        $feedback = $this->feedbackRepository->all();
+        $user = Auth::user();
 
-        return view('feedback.index')
-            ->with('feedback', $feedback);
+        if ($user->hasRole('admin')) {
+            $feedback = $this->feedbackRepository->with('user')->paginate(15);
+        } else {
+            $feedback = Feedback::where('user_id', $user->id)->paginate(15);
+        }
+
+        return view('feedback.index')->with('feedback', $feedback);
     }
 
     /**
@@ -54,9 +62,10 @@ class FeedbackController extends AppBaseController
      */
     public function store(CreateFeedbackRequest $request)
     {
-        $input = $request->all();
+        $input = $request->only(['content']);
+        $input['user_id'] = Auth::user()->id;
 
-        $feedback = $this->feedbackRepository->create($input);
+        $this->feedbackRepository->create($input);
 
         Flash::success('Feedback saved successfully.');
 
@@ -106,7 +115,7 @@ class FeedbackController extends AppBaseController
     /**
      * Update the specified Feedback in storage.
      *
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateFeedbackRequest $request
      *
      * @return Response
@@ -121,11 +130,22 @@ class FeedbackController extends AppBaseController
             return redirect(route('feedback.index'));
         }
 
-        $feedback = $this->feedbackRepository->update($request->all(), $id);
+        $user = Auth::user();
 
-        Flash::success('Feedback updated successfully.');
+        if ($user->id == $feedback->user_id) {
+            $input = $request->only(['content']);
+            Flash::success('Feedback updated successfully.');
+        } else {
+            $input = $request->only(['reply', 'is_resolved']);
+            $input['replied_user_id'] = $user->id;
+            $input['replied_at'] = Carbon::now()->toDateTimeString();
 
-        return redirect(route('feedback.index'));
+            Flash::success('Feedback replied successfully.');
+        }
+
+        $this->feedbackRepository->update($input, $id);
+
+        return redirect(route('feedback.show', ['id' => $id]));
     }
 
     /**
@@ -145,10 +165,14 @@ class FeedbackController extends AppBaseController
             return redirect(route('feedback.index'));
         }
 
-        $this->feedbackRepository->delete($id);
+        $user = Auth::user();
 
-        Flash::success('Feedback deleted successfully.');
+        if ($user->id == $feedback->user_id || $user->hasRole('admin')) {
+            $this->feedbackRepository->delete($id);
+            Flash::success('Feedback deleted successfully.');
+            return redirect(route('feedback.index'));
+        }
 
-        return redirect(route('feedback.index'));
+        abort(403);
     }
 }

@@ -3,13 +3,10 @@
         <tr>
             <th>Name</th>
         <th>Email</th>
-        <th>Password</th>
         <th>Gender</th>
         <th>Phone</th>
-        <th>Address</th>
         <th>Base Salary</th>
-        <th>Department Id</th>
-        <th>Remember Token</th>
+        <th>Department</th>
             <th colspan="3">Action</th>
         </tr>
     </thead>
@@ -18,13 +15,10 @@
         <tr>
             <td>{!! $user->name !!}</td>
             <td>{!! $user->email !!}</td>
-            <td>{!! $user->password !!}</td>
             <td>{!! $user->gender !!}</td>
             <td>{!! $user->phone !!}</td>
-            <td>{!! $user->address !!}</td>
             <td>{!! $user->base_salary !!}</td>
-            <td>{!! $user->department_id !!}</td>
-            <td>{!! $user->remember_token !!}</td>
+            <td>{!! is_null($user->department_id) ? null : $user->department['name'] !!}</td>
             <td>
                 {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

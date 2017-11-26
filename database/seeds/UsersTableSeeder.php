@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
             factory(App\Models\User::class, 5)->create([
                 'department_id' => $department->id,
             ])->each(function ($u) {
-                factory(\App\Models\DailyLog::class, 20)->create([
+                factory(\App\Models\DailyLog::class, 10)->create([
                     'user_id' => $u->id,
                 ]);
 

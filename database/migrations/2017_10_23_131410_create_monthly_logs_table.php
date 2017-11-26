@@ -16,7 +16,7 @@ class CreateMonthlyLogsTable extends Migration
         Schema::create('monthly_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id', false, true)->nullable();
-            $table->date('month_year')->nullable();
+            $table->date('date')->nullable();
             $table->float('overtime_hours')->unsigned()->nullable();
             $table->integer('days_off', false, true)->nullable();
             $table->integer('total_base_salary', false, true)->nullable();

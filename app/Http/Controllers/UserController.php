@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Department;
 
 class UserController extends AppBaseController
 {
@@ -29,7 +30,7 @@ class UserController extends AppBaseController
     public function index(Request $request)
     {
         $this->userRepository->pushCriteria(new RequestCriteria($request));
-        $users = $this->userRepository->all();
+        $users = $this->userRepository->with('department')->all();
 
         return view('users.index')
             ->with('users', $users);
@@ -100,7 +101,14 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        return view('users.edit')->with('user', $user);
+        $departmentOptions = [];
+        $departments = Department::all();
+
+        foreach ($departments as $department) {
+            $departmentOptions[$department->id] = $department->name;
+        }
+
+        return view('users.edit', compact(['user', 'departmentOptions']));
     }
 
     /**
@@ -125,7 +133,7 @@ class UserController extends AppBaseController
 
         Flash::success('User updated successfully.');
 
-        return redirect(route('users.index'));
+        return redirect(route('users.edit', $id));
     }
 
     /**

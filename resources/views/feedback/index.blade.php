@@ -17,6 +17,7 @@
             <div class="box-body">
                     @include('feedback.table')
             </div>
+            <div class="text-center">{{ $feedback->render() }}</div>
         </div>
     </div>
 @endsection

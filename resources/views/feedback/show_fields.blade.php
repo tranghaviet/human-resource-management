@@ -4,10 +4,10 @@
     <p>{!! $feedback->id !!}</p>
 </div>
 
-<!-- User Id Field -->
+<!-- User Field -->
 <div class="form-group">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{!! $feedback->user_id !!}</p>
+    {!! Form::label('user', 'User:') !!}
+    <p>{!! $feedback->user['name'] !!}</p>
 </div>
 
 <!-- Content Field -->
@@ -25,7 +25,7 @@
 <!-- Is Resolved Field -->
 <div class="form-group">
     {!! Form::label('is_resolved', 'Is Resolved:') !!}
-    <p>{!! $feedback->is_resolved !!}</p>
+    <p>{!! var_export($feedback->is_resolved) !!}</p>
 </div>
 
 <!-- Created At Field -->
@@ -34,10 +34,10 @@
     <p>{!! $feedback->created_at !!}</p>
 </div>
 
-<!-- Replied User Id Field -->
+<!-- Replied User Field -->
 <div class="form-group">
-    {!! Form::label('replied_user_id', 'Replied User Id:') !!}
-    <p>{!! $feedback->replied_user_id !!}</p>
+    {!! Form::label('replied_user', 'Replied User:') !!}
+    <p>{!! $feedback->replyUser['name'] !!}</p>
 </div>
 
 <!-- Replied At Field -->

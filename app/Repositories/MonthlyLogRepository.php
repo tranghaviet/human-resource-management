@@ -22,7 +22,7 @@ class MonthlyLogRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'user_id',
-        'month_year',
+        'date',
         'overtime_hours',
         'days_off',
         'total_base_salary',

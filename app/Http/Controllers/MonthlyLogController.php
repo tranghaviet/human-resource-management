@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Flash;
+use Response;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\MonthlyLog;
+use Illuminate\Http\Request;
+use App\Repositories\MonthlyLogRepository;
 use App\Http\Requests\CreateMonthlyLogRequest;
 use App\Http\Requests\UpdateMonthlyLogRequest;
-use App\Repositories\MonthlyLogRepository;
-use Illuminate\Http\Request;
-use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
 class MonthlyLogController extends AppBaseController
 {
@@ -29,7 +33,13 @@ class MonthlyLogController extends AppBaseController
     public function index(Request $request)
     {
         $this->monthlyLogRepository->pushCriteria(new RequestCriteria($request));
-        $monthlyLogs = $this->monthlyLogRepository->all();
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            $monthlyLogs = $this->monthlyLogRepository->with('user')->paginate(30);
+        } else {
+            $monthlyLogs = MonthlyLog::where('user_id', $user->id)->with('user')->paginate(30);
+        }
 
         return view('monthly_logs.index')
             ->with('monthlyLogs', $monthlyLogs);
@@ -149,6 +159,57 @@ class MonthlyLogController extends AppBaseController
 
         Flash::success('Monthly Log deleted successfully.');
 
+        return redirect(route('monthlyLogs.index'));
+    }
+
+    public function getSetReward() {
+        $userOptions = [];
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $userOptions[$user->id] = $user->name;
+        }
+
+        $monthOptions = [
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            4 => 4,
+            5 => 5,
+            6 => 6,
+            7 => 7,
+            8 => 8,
+            9 => 9,
+            10 => 10,
+            11 => 11,
+            12 => 12,
+        ];
+
+        return view('monthly_logs.setReward', compact('userOptions', 'monthOptions'));
+    }
+
+    public function setReward(Request $request) {
+        $date = new Carbon();
+        $date->year = $request->year;
+        $date->month = $request->month;
+
+        if ($request->reward < 0) {
+            Flash::error('Reward must greater than zero.');
+            return redirect(route('monthlyLogs.getSetReward'));
+        }
+
+        $monthlyLog = MonthlyLog::findByUserIdAndDate($request->user_id, $date);
+
+        if (empty($monthlyLog)) {
+            Flash::error('No time found.');
+            return redirect(route('monthlyLogs.getSetReward'));
+        }
+
+        $monthlyLog->reward = $request->reward;
+        $monthlyLog->total_salary += $request->reward;
+        $monthlyLog->save();
+
+        Flash::success('Reward set successfully.');
         return redirect(route('monthlyLogs.index'));
     }
 }
