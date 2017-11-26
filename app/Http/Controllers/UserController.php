@@ -133,7 +133,7 @@ class UserController extends AppBaseController
 
         Flash::success('User updated successfully.');
 
-        return redirect(route('users.index'));
+        return redirect(route('users.edit', $id));
     }
 
     /**

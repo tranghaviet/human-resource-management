@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        return redirect('/login');
+    } else {
+        return redirect(route('dailyLogs.index'));
+    }
 });
 
 Auth::routes();

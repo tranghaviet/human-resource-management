@@ -11,6 +11,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Feedback;
 
 class FeedbackController extends AppBaseController
 {
@@ -36,8 +37,7 @@ class FeedbackController extends AppBaseController
         if ($user->hasRole('admin')) {
             $feedback = $this->feedbackRepository->with('user')->paginate(15);
         } else {
-            $feedback = $this->feedbackRepository
-                ->findWhere(['user_id' => $user->id]);
+            $feedback = Feedback::where('user_id', $user->id)->paginate(15);
         }
 
         return view('feedback.index')->with('feedback', $feedback);

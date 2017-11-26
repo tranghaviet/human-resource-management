@@ -3,6 +3,9 @@
 @section('content')
     <section class="content-header">
         <h1 class="pull-left">Monthly Logs</h1>
+        @if(Auth::user()->hasRole('admin'))
+            <a href="{{ route('monthlyLogs.getSetReward') }}" class="btn btn-primary pull-right">Set Reward</a>
+        @endif
     </section>
     <div class="content">
         <div class="box box-primary">
