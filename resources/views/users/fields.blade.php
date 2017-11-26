@@ -31,18 +31,19 @@
     {!! Form::text('address', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Base Salary Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('base_salary', 'Base Salary:') !!}
-    {!! Form::number('base_salary', null, ['class' => 'form-control']) !!}
-</div>
+@if(Auth::user()->hasRole('admin'))
+    <!-- Base Salary Field -->
+    <div class="form-group col-sm-6">
+        {!! Form::label('base_salary', 'Base Salary:') !!}
+        {!! Form::number('base_salary', null, ['class' => 'form-control']) !!}
+    </div>
 
-<!-- Department Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('department', 'Department:') !!}
-    {!! Form::select('department_id', $departmentOptions, ['class' => 'form-control']) !!}
-</div>
-
+    <!-- Department Id Field -->
+    <div class="form-group col-sm-6">
+        {!! Form::label('department', 'Department:') !!}
+        {!! Form::select('department_id', $departmentOptions, array_get_first_key($departmentOptions), ['class' => 'form-control']) !!}
+    </div>
+@endif
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

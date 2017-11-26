@@ -6,8 +6,8 @@
 
 <!-- Manager Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('manager_id', 'Manager Id:') !!}
-    {!! Form::select('manager_id', $managerOptions, null) !!}
+    {!! Form::label('manager_id', 'Manager:') !!}
+    {!! Form::select('manager_id', $managerOptions, array_get_first_key($managerOptions), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

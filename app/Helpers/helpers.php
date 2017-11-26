@@ -2,6 +2,8 @@
 
 if (! function_exists('working_days_in_month')) {
     /**
+     * Get number of working day in given month and year.
+     *
      * @param int $year
      * @param int $month
      * @param array $ignore days to ignore: 0 is sunday... 6 is saturday. e.g: [0, 6]
@@ -19,5 +21,20 @@ if (! function_exists('working_days_in_month')) {
         }
 
         return $count;
+    }
+}
+
+if (! function_exists('array_get_first_key')) {
+    /**
+     * Get key of the first element of given array.
+     *
+     * @param array $array
+     * @return int key of the first element
+     */
+    function array_get_first_key($array)
+    {
+        reset($array);
+
+        return key($array);
     }
 }
