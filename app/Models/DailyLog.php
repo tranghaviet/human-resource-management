@@ -24,9 +24,6 @@ use Eloquent as Model;
 class DailyLog extends Model
 {
     public $table = 'daily_logs';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
 
     public $fillable = [
         'user_id',
@@ -46,6 +43,11 @@ class DailyLog extends Model
         'user_id' => 'integer',
         'working_hours' => 'float',
         'monthly_log_id' => 'integer'
+    ];
+
+    protected $dates = [
+        'checked_in_at',
+        'checked_out_at',
     ];
 
     /**
@@ -72,4 +74,29 @@ class DailyLog extends Model
     {
         return $this->belongsTo(\App\Models\MonthlyLog::class);
     }
+
+    /**
+     * @param int $userId
+     * @param string $date
+     * @return DailyLog
+     */
+    public static function findByUserIdAndDate($userId, $date)
+    {
+        return DailyLog::where('user_id', $userId)
+            ->whereDate('checked_in_at', $date)->first();
+    }
+
+    /**
+     * @param int $userId
+     * @param \Carbon\Carbon $date
+     * @return DailyLog
+     */
+    public static function findByUserIdAndMonthYear($userId, \Carbon\Carbon $date)
+    {
+        return DailyLog::where('user_id', $userId)
+            ->whereYear('checked_in_at', $date->year)
+            ->whereMonth('checked_in_at', $date->month)->get();
+    }
+
+
 }

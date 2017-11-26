@@ -6,6 +6,8 @@ use Auth;
 use Flash;
 use Response;
 use Carbon\Carbon;
+use App\Models\DailyLog;
+use App\Models\MonthlyLog;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateDailyLogRequest;
 use App\Repositories\DailyLogRepository;
@@ -35,8 +37,7 @@ class DailyLogController extends AppBaseController
         if ($user->hasRole('admin')) {
             $dailyLogs = $this->dailyLogRepository->with('user')->paginate(20);
         } else {
-            $dailyLogs = $this->dailyLogRepository
-                ->findWhere(['user_id' => $user->id]);
+            $dailyLogs = DailyLog::where('user_id', $user->id)->paginate(30);
         }
 
         return view('daily_logs.index')
@@ -58,14 +59,14 @@ class DailyLogController extends AppBaseController
         $user = Auth::user();
         $now = Carbon::now();
 
-        $userCheckedIn =  get_user_checked_in($user->id, $now->toDateString());
+        $userCheckedIn =  DailyLog::findByUserIdAndDate($user->id, $now->toDateString());
 
         if (! empty($userCheckedIn)) {
             Flash::success('You already checked-in.');
         } else {
             $input = [
                 'user_id' => $user->id,
-                'checked_in_at' => $now->toDateTimeString(),
+                'checked_in_at' => $now,
             ];
 
             $this->dailyLogRepository->create($input);
@@ -81,19 +82,18 @@ class DailyLogController extends AppBaseController
         $user = Auth::user();
         $now = Carbon::now();
 
-        $userCheckedIn =  get_user_checked_in($user->id, $now->toDateString());
+        $userCheckedIn = DailyLog::findByUserIdAndDate($user->id, $now->toDateString());
 
-        if (! empty($userCheckedIn)) {
+        if (empty($userCheckedIn)) {
+            Flash::warning("You haven't checked-in yet.");
+        } else {
             $userCheckedIn->checked_out_at = $now;
 
-            $checkedInTime = new Carbon($userCheckedIn->checked_in_at);
-            $userCheckedIn->working_hours = $now->diffInHours($checkedInTime);
+            $userCheckedIn->working_hours = $now->diffInHours($userCheckedIn->checked_in_at);
 
             $userCheckedIn->save();
 
             Flash::success('Check-out successfully.');
-        } else {
-            Flash::success("You haven't checked-in yet.");
         }
 
         return redirect(route('dailyLogs.index'));
