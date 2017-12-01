@@ -7,7 +7,7 @@
 <!-- Email Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('email', 'Email:') !!}
-    {!! Form::email('email', null, ['class' => 'form-control']) !!}
+    {!! Form::email('email', empty(compact('user')) ? null : $user->email, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Password Field -->

@@ -140,7 +140,17 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        $user = $this->userRepository->update($request->all(), $id);
+        $input = $request->all();
+
+        if (empty($input['password'])) {
+            unset($input['password']);
+        }
+
+        if ($input['email'] == $user->email) {
+            unset($input['email']);
+        }
+
+        $user = $this->userRepository->update($input, $id);
 
         Flash::success('User updated successfully.');
 
