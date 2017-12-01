@@ -25,8 +25,17 @@
     </label>
 </div>
 
-<!-- Phone Field -->
+<!-- Admin Field -->
 <div class="form-group col-sm-3">
+    {!! Form::label('is_admin', 'Is Admin:') !!}
+    <label class="checkbox-inline">
+        {!! Form::hidden('is_admin', false) !!}
+        {!! Form::checkbox('is_admin', '1', null) !!} Male
+    </label>
+</div>
+
+<!-- Phone Field -->
+<div class="form-group col-sm-6">
     {!! Form::label('phone', 'Phone:') !!}
     {!! Form::text('phone', null, ['class' => 'form-control']) !!}
 </div>

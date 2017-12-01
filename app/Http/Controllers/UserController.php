@@ -70,6 +70,11 @@ class UserController extends AppBaseController
 
         $user = $this->userRepository->create($input);
 
+        if ($input['is_admin']) {
+            $adminRole = \App\Models\Role::where('name', 'admin')->first();
+            $user->attachRole($adminRole);
+        }
+
         Flash::success('User saved successfully.');
 
         return redirect(route('users.index'));
