@@ -35,7 +35,7 @@ class FeedbackController extends AppBaseController
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
-            $feedback = $this->feedbackRepository->with('user')->paginate(15);
+            $feedback = $this->feedbackRepository->with('user')->orderBy('updated_at', 'desc')->paginate(15);
         } else {
             $feedback = Feedback::where('user_id', $user->id)->paginate(15);
         }
