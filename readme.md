@@ -52,3 +52,9 @@ Khởi động app:
 ```
 php artisan serve
 ```
+Log in bằng tài khoản
+```
+admin@example.comp
+employee@example.com
+```
+Password: `password`

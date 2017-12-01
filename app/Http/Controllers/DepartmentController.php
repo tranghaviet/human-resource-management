@@ -43,7 +43,14 @@ class DepartmentController extends AppBaseController
      */
     public function create()
     {
-        return view('departments.create');
+        $managerOptions = [];
+        $managers = User::all();
+
+        foreach ($managers as $manager) {
+            $managerOptions[$manager->id] = $manager->name;
+        }
+
+        return view('departments.create', compact('managerOptions'));
     }
 
     /**
