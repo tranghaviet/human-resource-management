@@ -63,6 +63,12 @@ class FeedbackController extends AppBaseController
     public function store(CreateFeedbackRequest $request)
     {
         $input = $request->only(['content']);
+
+        if (empty($input['content'])) {
+            Flash::error('Content is required');
+
+            return redirect(route('feedback.create'));
+        }
         $input['user_id'] = Auth::user()->id;
 
         $this->feedbackRepository->create($input);

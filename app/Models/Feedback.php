@@ -25,7 +25,7 @@ use Eloquent as Model;
 class Feedback extends Model
 {
     public $table = 'feedback';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -58,7 +58,7 @@ class Feedback extends Model
      * @var array
      */
     public static $rules = [
-        
+
     ];
 
     /**
