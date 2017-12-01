@@ -10,8 +10,14 @@
     {!! Form::email('email', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Gender Field -->
+<!-- Password Field -->
 <div class="form-group col-sm-6">
+    {!! Form::label('password', 'Password:') !!}
+    {!! Form::password('password', ['class' => 'form-control']) !!}
+</div>
+
+<!-- Gender Field -->
+<div class="form-group col-sm-3">
     {!! Form::label('gender', 'Gender:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('gender', false) !!}
@@ -20,7 +26,7 @@
 </div>
 
 <!-- Phone Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-3">
     {!! Form::label('phone', 'Phone:') !!}
     {!! Form::text('phone', null, ['class' => 'form-control']) !!}
 </div>
