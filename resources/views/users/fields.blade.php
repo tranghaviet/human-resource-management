@@ -30,7 +30,7 @@
     {!! Form::label('is_admin', 'Is Admin:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('is_admin', false) !!}
-        {!! Form::checkbox('is_admin', '1', null) !!} Male
+        {!! Form::checkbox('is_admin', '1', null) !!}
     </label>
 </div>
 
