@@ -144,6 +144,8 @@ class UserController extends AppBaseController
 
         if (empty($input['password'])) {
             unset($input['password']);
+        } else {
+            $input['password'] = bcrypt($input['password']);
         }
 
         if ($input['email'] == $user->email) {
