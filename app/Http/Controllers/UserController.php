@@ -43,7 +43,14 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        return view('users.create');
+        $departmentOptions = [];
+        $departments = Department::all();
+
+        foreach ($departments as $department) {
+            $departmentOptions[$department->id] = $department->name;
+        }
+
+        return view('users.create', compact('departmentOptions'));
     }
 
     /**
