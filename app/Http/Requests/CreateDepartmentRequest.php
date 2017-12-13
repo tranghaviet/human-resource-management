@@ -25,6 +25,8 @@ class CreateDepartmentRequest extends FormRequest
      */
     public function rules()
     {
-        return Department::$rules;
+        return [
+            'name' => 'required|string',
+        ];
     }
 }

@@ -24,6 +24,6 @@ class CreateFeedbackRequest extends FormRequest
      */
     public function rules()
     {
-        return Feedback::$rules;
+        return [];
     }
 }
